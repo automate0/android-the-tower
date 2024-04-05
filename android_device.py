@@ -11,6 +11,7 @@ class AndroidDevice:
     def __init__(self, device_id):
         adb = AdbClient()
         self.device = adb.device(device_id)
+        print(self.device)
 
     def capture(self):
         screen = self.device.screencap()

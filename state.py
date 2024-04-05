@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from PIL import Image
 from image_operation import compare
 import operator
+from time import sleep
 
 
 class State(ABC):
@@ -42,6 +43,7 @@ class GameOverState(State):
         device.tap_point(self.points['retry'])
 
 
+#(x1, y1, x2, y2) 10, 140, 40, 780
 states = {
     PlayAttackState(rects=[(10, 780, 140, 40), ], points={'damage': (300, 900), 'attack_speed': (600, 900)}),
     PlayDefenseState(rects=[(10, 780, 140, 40), ]),
@@ -49,12 +51,18 @@ states = {
     GameOverState(rects=[(180, 1000, 100, 30), ], points={'retry': (230, 1020)})
 }
 
-
 def find_state(capture) -> State:
     scores = {}
+    #print(capture)
+    #capture.crop((10, 780, 150, 820)).show()
     for idx, s in enumerate(states):
         score = 0
+        print(s)
         for box in s.boxes:
+            #print(box)
+            #cropped_image = s.im.crop(box)
+            #cropped_image.show()
+            sleep(5)
             score += compare(s.im, capture, box)
         scores[s] = score / len(s.boxes)
 
